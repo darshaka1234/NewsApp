@@ -1,10 +1,10 @@
 import { model, Schema } from "mongoose";
 
-const AuthorSchema = new Schema({
+const UserSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: "enum", enum: ["Admin", "Guest"], required: true },
+  role: { type: String, enum: ["Admin", "Guest"], required: true },
 });
 
-export default model("Author", AuthorSchema);
+export default model("User", UserSchema);
