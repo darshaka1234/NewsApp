@@ -26,7 +26,7 @@ export const GetArticle = async (req: Request, res: Response) => {
   }
 };
 
-export const createArticle = async (req: Request, res: Response) => {
+export const CreateArticle = async (req: Request, res: Response) => {
   const article = _.pick(req.body, [
     "title",
     "author",
@@ -58,9 +58,10 @@ export const UpdateArticle = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Article not found" });
     }
 
-    const updatedArticle = Article.findByIdAndUpdate(
+    const updatedArticle = await Article.findByIdAndUpdate(
       req.params.id,
-      articleData
+      articleData,
+      { new: true }
     );
 
     res.status(201).json(updatedArticle);
