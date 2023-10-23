@@ -4,7 +4,7 @@ const AuthorSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: "enum", enum: ["Admin", "Geust"], required: true },
+  role: { type: "enum", enum: ["Admin", "Guest"], required: true },
 });
 
 export default model("Author", AuthorSchema);
