@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import _ from "lodash";
 import Article from "../models/Article";
 
 export const GetAllArticles = async (req: Request, res: Response) => {
@@ -22,5 +23,64 @@ export const GetArticle = async (req: Request, res: Response) => {
     }
   } catch (err: any) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const createArticle = async (req: Request, res: Response) => {
+  const article = _.pick(req.body, [
+    "title",
+    "author",
+    "pub_date",
+    "description",
+    "imageUrl",
+  ]);
+  try {
+    const newArticle = new Article(article);
+    const createdArticle = await newArticle.save();
+    res.status(201).json(createdArticle);
+  } catch (err: any) {
+    res.status(409).json({ message: err.message });
+  }
+};
+
+export const UpdateArticle = async (req: Request, res: Response) => {
+  const articleData = _.pick(req.body, [
+    "title",
+    "author",
+    "pub_date",
+    "description",
+    "imageUrl",
+  ]);
+  try {
+    const article = await Article.findById(req.params.id);
+
+    if (!article) {
+      res.status(404).json({ error: "Article not found" });
+    }
+
+    const updatedArticle = Article.findByIdAndUpdate(
+      req.params.id,
+      articleData
+    );
+
+    res.status(201).json(updatedArticle);
+  } catch (err: any) {
+    res.status(409).json({ message: err.message });
+  }
+};
+
+export const DeleteArticle = async (req: Request, res: Response) => {
+  try {
+    const article = await Article.findById(req.params.id);
+
+    if (!article) {
+      res.status(404).json({ error: "Article not found" });
+    }
+
+    await Article.findByIdAndDelete(req.params.id);
+
+    res.status(201).json("Successfully deleted");
+  } catch (err: any) {
+    res.status(409).json({ message: err.message });
   }
 };
