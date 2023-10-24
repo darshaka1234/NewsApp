@@ -3,7 +3,7 @@ import React from "react";
 import { FaRegNewspaper } from "react-icons/fa";
 const NavBar = () => {
   const navlinks = [
-    { href: "/article", name: "Article" },
+    { href: "/news", name: "News" },
     { href: "/dashboard", name: "Dashboard" },
   ];
   return (
