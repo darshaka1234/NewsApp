@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import _ from "lodash";
 import Article from "../models/Article";
+import cloudinary from "../config/cloudinary.config";
 
 export const GetAllArticles = async (req: Request, res: Response) => {
   try {
@@ -34,7 +35,11 @@ export const CreateArticle = async (req: Request, res: Response) => {
     "description",
     "imageUrl",
   ]);
+
   try {
+    const result = await cloudinary.v2.uploader.upload(req.file?.path!);
+    article.imageUrl = result.secure_url;
+
     const newArticle = new Article(article);
     const createdArticle = await newArticle.save();
     res.status(201).json(createdArticle);
@@ -57,7 +62,8 @@ export const UpdateArticle = async (req: Request, res: Response) => {
     if (!article) {
       res.status(404).json({ error: "Article not found" });
     }
-
+    const result = await cloudinary.v2.uploader.upload(req.file?.path!);
+    articleData.imageUrl = result.secure_url;
     const updatedArticle = await Article.findByIdAndUpdate(
       req.params.id,
       articleData,

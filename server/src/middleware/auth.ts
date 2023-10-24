@@ -7,7 +7,7 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    let token = req.header("Authorization");
+    let token = req.header("x-auth-token");
 
     if (!token) {
       return res.status(403).send("Access Denied");

@@ -3,10 +3,13 @@ import articleRouter from "./routes/articleRoute";
 import authorRouter from "./routes/authRoutes";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
+
+app.use(morgan("common"));
 
 app.use("/", articleRouter);
 app.use("/user", authorRouter);
