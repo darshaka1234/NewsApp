@@ -16,13 +16,23 @@ const NewNewsPage = () => {
   const { register, control, handleSubmit } = useForm<FormValues>();
   const router = useRouter();
 
+  const onHadleSubmit = async ({ title, author, description, image }: any) => {
+    const newdata = { title, author, description, image: image[0] };
+    console.log(image[0]);
+    await axios.post("http://localhost:5000", newdata, {
+      headers: {
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzgwM2Y3Mzc0OWRjOWYyNGIxYzY2MyIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY5ODE2OTg0N30.RcD4xuYC4hUDjbKxt1wrr4TWcxKe7z2G4hg2jTDjpDg",
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    router.push("/news");
+  };
+
   return (
     <form
       className="max-w-xl space-y-5 flex flex-col"
-      onSubmit={handleSubmit(async (data: FormValues) => {
-        await axios.post("http://localhost:5000/", data);
-        router.push("/news");
-      })}
+      onSubmit={handleSubmit(onHadleSubmit)}
     >
       <TextField.Root>
         <TextField.Input placeholder="Title" {...register("title")} />

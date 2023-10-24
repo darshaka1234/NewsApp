@@ -7,7 +7,7 @@ import User from "../models/User";
 export const register = async (req: Request, res: Response) => {
   const { adminKey } = _.pick(req.body, ["adminKey"]);
   const user = _.pick(req.body, ["name", "email", "password", "role"]);
-  const salt = await bcrypt.genSalt();
+  const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
   try {

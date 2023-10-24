@@ -39,7 +39,6 @@ export const CreateArticle = async (req: Request, res: Response) => {
   try {
     const result = await cloudinary.v2.uploader.upload(req.file?.path!);
     article.imageUrl = result.secure_url;
-
     const newArticle = new Article(article);
     const createdArticle = await newArticle.save();
     res.status(201).json(createdArticle);

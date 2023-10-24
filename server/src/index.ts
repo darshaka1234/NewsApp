@@ -4,11 +4,15 @@ import authorRouter from "./routes/authRoutes";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(cors());
 app.use(morgan("common"));
 
 app.use("/", articleRouter);
