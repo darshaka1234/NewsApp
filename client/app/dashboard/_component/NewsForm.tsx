@@ -24,6 +24,7 @@ const NewsForm = ({ data, edit, id }: Props) => {
   type FormValues = z.infer<typeof NewsSchema>;
   const [err, setErr] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
   const {
     register,
     control,
@@ -62,6 +63,23 @@ const NewsForm = ({ data, edit, id }: Props) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      setDeleting(true);
+      await axios.delete(`http://localhost:5000/${id}`, {
+        headers: {
+          "x-auth-token": token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setSubmitting(false);
+      router.push("/dashboard");
+    } catch (err) {
+      setDeleting(false);
+      setErr("Error on Deleting");
+    }
+  };
+
   return (
     <div className="max-w-xl">
       {err && (
@@ -71,7 +89,7 @@ const NewsForm = ({ data, edit, id }: Props) => {
       )}
 
       <form
-        className=" space-y-5 flex flex-col"
+        className=" space-y-5 flex flex-col mb-3"
         onSubmit={handleSubmit(onHadleSubmit)}
       >
         <TextField.Root>
@@ -108,6 +126,17 @@ const NewsForm = ({ data, edit, id }: Props) => {
           {isSubmitting && <Spinner />}
         </Button>
       </form>
+      <div>
+        <Button
+          color="red"
+          className="w-full hover:cursor-pointer "
+          disabled={isSubmitting}
+          onClick={handleDelete}
+        >
+          DELETE
+          {isDeleting && <Spinner />}
+        </Button>
+      </div>
     </div>
   );
 };
