@@ -61,8 +61,12 @@ export const UpdateArticle = async (req: Request, res: Response) => {
     if (!article) {
       res.status(404).json({ error: "Article not found" });
     }
-    const result = await cloudinary.v2.uploader.upload(req.file?.path!);
-    articleData.imageUrl = result.secure_url;
+
+    if (req.file) {
+      const result = await cloudinary.v2.uploader.upload(req.file?.path!);
+      articleData.imageUrl = result.secure_url;
+    }
+
     const updatedArticle = await Article.findByIdAndUpdate(
       req.params.id,
       articleData,

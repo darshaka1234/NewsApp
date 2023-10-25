@@ -1,7 +1,17 @@
-import React from "react";
+import NewsTable from "./newsTable";
+import AddNewsButton from "./AddNewsButton";
+import { NewsProp } from "@/types/newsType";
 
-const Dashboard = () => {
-  return <div>dashboard</div>;
+const News = async () => {
+  const res = await fetch("http://localhost:5000", { next: { revalidate: 5 } });
+  const news: NewsProp[] = await res.json();
+
+  return (
+    <div>
+      <AddNewsButton />
+      <NewsTable news={news} />
+    </div>
+  );
 };
 
-export default Dashboard;
+export default News;

@@ -15,7 +15,6 @@ const ArticleSchema = new Schema({
   },
   imageUrl: {
     type: String,
-    required: true,
   },
 });
 
