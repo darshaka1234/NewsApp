@@ -7,7 +7,7 @@ interface Props {
 }
 
 const page = async ({ params: { id } }: Props) => {
-  const res = await fetch(`http://localhost:5000/${id}`);
+  const res = await fetch(`http://localhost:5000/${id}`, { cache: "no-store" });
   const news: NewsProp = await res.json();
 
   return <NewsForm data={news} edit={true} id={id} />;

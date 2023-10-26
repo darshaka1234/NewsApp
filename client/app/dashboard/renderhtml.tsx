@@ -7,10 +7,14 @@ interface Props {
 
 const Renderhtml = ({ htmlContent, classname }: Props) => {
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: htmlContent }}
-      className={classname}
-    />
+    <div>
+      <div
+        style={{ display: "block" }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+        className={classname}
+      />
+      <p className="flex justify-end">See More...</p>
+    </div>
   );
 };
 

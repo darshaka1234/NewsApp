@@ -10,8 +10,8 @@ import { NewsSchema } from "@/validationSchema/NewsSchema";
 import z from "zod";
 import { useState } from "react";
 import { Callout } from "@radix-ui/themes";
-import ErrorMessage from "@/app/components/errMsg";
-import Spinner from "@/app/components/spinner";
+import ErrorMessage from "@/app/_components/errMsg";
+import Spinner from "@/app/_components/spinner";
 import { NewsProp } from "@/types/newsType";
 
 interface Props {
